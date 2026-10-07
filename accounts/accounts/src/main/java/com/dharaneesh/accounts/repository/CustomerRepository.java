@@ -1,9 +1,13 @@
 package com.dharaneesh.accounts.repository;
 
-import com.dharaneesh.accounts.entity.Accounts;
+import com.dharaneesh.accounts.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Accounts, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
+
+    Optional<Customer> findByMobileNumber(String mobileNumber);
 }
