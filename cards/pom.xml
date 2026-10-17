@@ -10,6 +10,7 @@
 	</parent>
 	<groupId>com.dharaneesh</groupId>
 	<artifactId>cards</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
@@ -82,6 +83,17 @@
 
 	<build>
 		<plugins>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.5.2</version>
+				<configuration>
+					<to>
+						<image>dharaneesh0203/${project.artifactId}:0.1</image>
+					</to>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
