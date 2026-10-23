@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.awt.*;
 
 @Tag(
@@ -32,6 +32,9 @@ import java.awt.*;
 @Validated
 public class AccountsController {
 
+
+    @Value("${build.version}")
+    private String buildVersion;
     private final IAccountService accountService;
 
 
@@ -159,6 +162,30 @@ public class AccountsController {
         }else {
             return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(AccountsConstants.STATUS_417,AccountsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(
+            summary = "get build information",
+            description = "get build information that is deployed into account microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP status ok"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP status internal server error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+
+                    )
+            )
+    })
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildVersion()
+    {
+        return ResponseEntity.ok(buildVersion);
     }
 
 
