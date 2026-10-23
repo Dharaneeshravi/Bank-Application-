@@ -90,7 +90,7 @@
 				<version>3.5.2</version>
 				<configuration>
 					<to>
-						<image>dharaneesh0203/${project.artifactId}:0.1</image>
+						<image>dharaneesh0203/${project.artifactId}:0.2</image>
 					</to>
 				</configuration>
 			</plugin>
