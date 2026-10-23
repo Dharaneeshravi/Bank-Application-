@@ -1,6 +1,7 @@
 package com.dharaneesh.accounts.controller;
 
 import com.dharaneesh.accounts.constants.AccountsConstants;
+import com.dharaneesh.accounts.dto.AccountsContactInfoDto;
 import com.dharaneesh.accounts.dto.CustomerDto;
 import com.dharaneesh.accounts.dto.ErrorResponseDto;
 import com.dharaneesh.accounts.dto.ResponseDto;
@@ -36,6 +37,7 @@ public class AccountsController {
 
     @Value("${build.version}")
     private String buildVersion;
+    private final AccountsContactInfoDto accountsContactInfoDto;
     private  final Environment environment;
     private final IAccountService accountService;
 
@@ -214,6 +216,32 @@ public class AccountsController {
     public ResponseEntity<String> getJavaVersion()
     {
         return ResponseEntity.ok(environment.getProperty("JAVA_HOME"));
+    }
+
+
+
+    @Operation(
+            summary = "get contact information",
+            description = "get contact information that is deployed into account microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP status ok"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP status internal server error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+
+                    )
+            )
+    })
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo()
+    {
+        return ResponseEntity.ok(accountsContactInfoDto);
     }
 
 
