@@ -4,12 +4,18 @@ spring:
     name: configserver
 
   profiles:
-    active: native
-
+    active: git
   cloud:
     config:
       server:
-        native:
-          search-locations: "file:///C:/Users/hanus/Documents/config-repo/"
+        git:
+          uri: https://github.com/Dharaneeshravi/config.git
+          default-label: main
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
 server:
   port: 8071
+
+encrypt:
+  key: "ABCD1234ABCD!@#%^*&%*^&)*!#$^&*()"
