@@ -23,6 +23,14 @@ spring:
   config:
     import: "configserver:http://localhost:8071/"
 
+#    To Refresh git for update
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 
 
 

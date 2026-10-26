@@ -21,3 +21,9 @@ spring:
     show-sql: true
   profiles:
     active: prod
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
