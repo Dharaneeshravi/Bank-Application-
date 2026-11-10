@@ -1,26 +1,42 @@
  name: "microservice"
 services:
 
-  rabbit:
-    image: rabbit:4-management
+
+  accountsdb:
+    container_name: accountsdb
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    deploy:
-      resources:
-        limits:
-          memory: 512m
+      - 3306:3306
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      MYSQL_DATABASE: accountsdb
     extends:
-      service: network-deploy-server
+      file: common-config.yml
+      service:  microservice-db-config
+
+
+
+  loansdb:
+    container_name: laonsdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: laonsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+
+  cardsdb:
+
+    container_name: cardsdb
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+
 
 
   accounts:
@@ -28,8 +44,12 @@ services:
     container_name: accounts-ms
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
     depends_on:
        configserver:
+         condition: service_healthy
+       accountsdb:
          condition: service_healthy
     extends:
       file: common-config.yml
@@ -49,9 +69,6 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
-    depends_on:
-       rabbit:
-         condition: service_healthy
     extends:
       file: common-config.yml
       service: microserveice-base-config
@@ -65,8 +82,12 @@ services:
     container_name: loans-ms
     ports:
       - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
     depends_on:
       configserver:
+        condition: service_healthy
+      loansdb:
         condition: service_healthy
     extends:
       file: common-config.yml
@@ -80,8 +101,12 @@ services:
     container_name: cards-ms
     ports:
       - "9000:9000"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
     depends_on:
       configserver:
+        condition: service_healthy
+      cardsdb:
         condition: service_healthy
     extends:
       file: common-config.yml
