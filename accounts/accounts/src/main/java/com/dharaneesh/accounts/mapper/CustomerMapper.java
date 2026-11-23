@@ -1,5 +1,6 @@
 package com.dharaneesh.accounts.mapper;
 
+import com.dharaneesh.accounts.dto.CustomerDetailsDto;
 import com.dharaneesh.accounts.dto.CustomerDto;
 import com.dharaneesh.accounts.entity.Customer;
 
@@ -23,5 +24,13 @@ public class CustomerMapper {
         customerDto.setEmail(customer.getEmail());
         customerDto.setMobileNumber(customer.getMobileNumber());
         return customerDto;
+    }
+
+    public static CustomerDetailsDto mapToCustomerDetailsDto(Customer customer, CustomerDetailsDto customerDetailsDto) {
+
+        customerDetailsDto.setName(customer.getName());
+        customerDetailsDto.setEmail(customer.getEmail());
+        customerDetailsDto.setMobileNumber(customer.getMobileNumber());
+        return customerDetailsDto;
     }
 }

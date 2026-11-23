@@ -15,7 +15,6 @@ import com.dharaneesh.accounts.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -60,7 +59,7 @@ public class AccountServiceImpl implements IAccountService {
              .orElseThrow(()->new ResourceNotFoundException("Account","customerId",customer.getCustomerId().toString()));
 
       CustomerDto customerDto=CustomerMapper.mapToCustomerDto(customer,new CustomerDto());
-      customerDto.setAccountsDto(AccountsMapper.mspToAccountsDto(accounts,new AccountsDto()));
+      customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts,new AccountsDto()));
       return customerDto;
     }
 
